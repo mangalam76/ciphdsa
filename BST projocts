@@ -1,0 +1,210 @@
+Certainly! Here are the key properties of a Binary Search Tree (BST):
+
+1. Node Structure**: Each node in a BST contains three components:
+   - **Data**: The value stored in the node.
+   - **Left Child**: A pointer/reference to the left subtree.
+   - **Right Child**: A pointer/reference to the right subtree.
+
+2. **Binary Tree**: A BST is a type of binary tree, meaning each node can have at most two children.
+
+3. **Ordering Property**: For any given node in a BST:
+   - All nodes in the left subtree have values less than the node's value.
+   - All nodes in the right subtree have values greater than the node's value.
+
+4. **Unique Values**: Typically, BSTs do not allow duplicate values. However, some variations can handle duplicates by placing equal values in either the left or right subtree consistently.
+
+5. **Operations**:
+   - **Insertion**: A new node is always added as a leaf node, ensuring the ordering property is maintained.
+   - **Search**: The tree is traversed from the root to the target node, comparing values at each step.
+   - **Deletion**: Removing a node can be complex due to the need to maintain the BST properties. There are three cases:
+     - Node with no children (leaf node): Simply remove the node.
+     - Node with one child: Remove the node and link its child directly to its parent.
+     - Node with two children: Find the in-order successor (smallest value in the right subtree) or in-order predecessor (largest value in the left subtree) to replace the node, 
+     then delete the successor/predecessor.
+
+6. **Traversal**:
+   - **InOrder Traversal**: Visits nodes in ascending order (left-root-right).
+   - **PreOrder Traversal**: Visits nodes in root-left-right order.
+   - **PostOrder Traversal**: Visits nodes in left-right-root order.
+
+7. **Balanced vs. Unbalanced**:
+   - **Balanced BST**: The height difference between the left and right subtrees of any node is minimal, leading to efficient operations. Examples include AVL trees and Red-Black trees.
+   - **Unbalanced BST**: Can degrade to a linked list in the worst case, where operations become linear in time complexity.
+
+8. **Height and Depth**:
+   - **Height**: The length of the longest path from the node to a leaf.
+   - **Depth**: The length of the path from the root to the node.
+
+9. **Time Complexity**:
+   - **Average Case**: O(log n) for insertion, deletion, and search operations.
+   - **Worst Case**: O(n) for insertion, deletion, and search operations in an unbalanced BST.
+
+These properties make BSTs efficient for various dynamic set operations such as maintaining a sorted list of items, and supporting fast lookups, insertions, deletions, and range queries.
+
+
+
+
+
+Part 1: Insertion, Deletion, and Search Operations
+
+CODE ->
+class Node {
+    int key;
+    Node left, right;
+
+    public Node(int item) {
+        key = item;
+        left = right = null;
+    }
+}
+
+class BinarySearchTree {
+    Node root;
+
+    BinarySearchTree() {
+        root = null;
+    }
+
+    // Insert a new key
+    void insert(int key) {
+        root = insertRec(root, key);
+    }
+
+    Node insertRec(Node root, int key) {
+        if (root == null) {
+            root = new Node(key);
+            return root;
+        }
+        if (key < root.key)
+            root.left = insertRec(root.left, key);
+        else if (key > root.key)
+            root.right = insertRec(root.right, key);
+
+        return root;
+    }
+
+    // Search for a key
+    boolean search(int key) {
+        return searchRec(root, key) != null;
+    }
+
+    Node searchRec(Node root, int key) {
+        if (root == null || root.key == key)
+            return root;
+        if (root.key > key)
+            return searchRec(root.left, key);
+        return searchRec(root.right, key);
+    }
+
+    // Delete a key
+    void delete(int key) {
+        root = deleteRec(root, key);
+    }
+
+    Node deleteRec(Node root, int key) {
+        if (root == null) return root;
+        if (key < root.key)
+            root.left = deleteRec(root.left, key);
+        else if (key > root.key)
+            root.right = deleteRec(root.right, key);
+        else {
+            if (root.left == null) return root.right;
+            else if (root.right == null) return root.left;
+            root.key = minValue(root.right);
+            root.right = deleteRec(root.right, root.key);
+        }
+        return root;
+    }
+
+    int minValue(Node root) {
+        int minv = root.key;
+        while (root.left != null) {
+            minv = root.left.key;
+            root = root.left;
+        }
+        return minv;
+    }
+}
+
+
+
+
+
+Part 2: Traversal Methods (InOrder, PreOrder, and PostOrder)
+
+CODE ->
+class BinarySearchTree {
+
+    // InOrder Traversal
+    void inOrder() {
+        inOrderRec(root);
+    }
+
+    void inOrderRec(Node root) {
+        if (root != null) {
+            inOrderRec(root.left);
+            System.out.print(root.key + " ");
+            inOrderRec(root.right);
+        }
+    }
+
+    // PreOrder Traversal
+    void preOrder() {
+        preOrderRec(root);
+    }
+
+    void preOrderRec(Node root) {
+        if (root != null) {
+            System.out.print(root.key + " ");
+            preOrderRec(root.left);
+            preOrderRec(root.right);
+        }
+    }
+
+    // PostOrder Traversal
+    void postOrder() {
+        postOrderRec(root);
+    }
+
+    void postOrderRec(Node root) {
+        if (root != null) {
+            postOrderRec(root.left);
+            postOrderRec(root.right);
+            System.out.print(root.key + " ");
+        }
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
+
+        bst.insert(50);
+        bst.insert(30);
+        bst.insert(20);
+        bst.insert(40);
+        bst.insert(70);
+        bst.insert(60);
+        bst.insert(80);
+
+        System.out.println("InOrder traversal:");
+        bst.inOrder();
+
+        System.out.println("\n\nPreOrder traversal:");
+        bst.preOrder();
+
+        System.out.println("\n\nPostOrder traversal:");
+        bst.postOrder();
+
+        System.out.println("\n\nSearch for 40: " + bst.search(40));
+        System.out.println("Search for 100: " + bst.search(100));
+
+        bst.delete(20);
+        System.out.println("\nInOrder traversal after deleting 20:");
+        bst.inOrder();
+
+        bst.delete(30);
+        System.out.println("\nInOrder traversal after deleting 30:");
+        bst.inOrder();
+
+        bst.delete(50);
+        System.out.println("\nInOrder traversal after deleting 50:")
