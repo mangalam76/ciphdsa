@@ -1,0 +1,20 @@
+| Feature                | Procedural Programming                | Object-Oriented Programming          |
+|------------------------|---------------------------------------|--------------------------------------|
+| **Functions/Objects**  | Functions                             | Objects                              |
+| **Data Handling**      | Separate from functions               | Encapsulated within objects          |
+| **Code Reusability**   | Through functions and modules         | Through inheritance and polymorphism |
+| **State Management**   | Global variables and function parameters | Object state                      
+| **Modularity**         | Functions and sometimes modules       | Classes and objects                  |
+| **Abstraction**        | Limited                               | High                                 |
+| **Examples of Languages** | C, Pascal, Fortran                  | Java, C++, Python, Ruby             |
+
+objects ->
+Objects are instances of classes, which serve as blueprints defining the structure and behaviors that the objects will have.
+class ->
+  A class is a blueprint or template for creating objects. It defines a set of attributes (data) and methods (functions) that the created objects (instances) will  have.
+A class in java can conatin:-
+-> Fields
+-> Constructors ( which is used to intialize the fields)
+->Method 
+->Blocks
+->Nested class and Interface (class implement the interface) 
